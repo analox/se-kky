@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Problem>
+		<!-- Problem keywords: Ackley, Elliptic, Griewank, Rastrigin, Rastrigin NonCon, Rosenbrock, 
+ 		 Noise Sphere, Sphere, Weierstrass, Schwefel, ExpandedScaffer, 
+		-->	
+		<Name>Sphere</Name>
+	</Problem>
+	<Runtime>
+		<savedDir>records</savedDir>
+		<evalFilename>EA</evalFilename>
+		<numRuns>1</numRuns>
+		<writeIO2File> false </writeIO2File>
+		<writeEvaluation2File>false</writeEvaluation2File>
+		<writePop2File> false </writePop2File>
+		<writeResults2File> false </writeResults2File>
+		<writeRBox2File> false </writeRBox2File>
+		<writeResults2DB> false </writeResults2DB> 
+		<enableVisualization> false </enableVisualization>
+		<writeRules2File> false </writeRules2File>	
+		<writeClassifiedPop2File> false </writeClassifiedPop2File>
+		<maxEvaluation>300000</maxEvaluation> 
+		<deltaThreshold> 1E-10 </deltaThreshold>
+		<fitThreshold> -128 </fitThreshold>
+		<maxGenerations> 10000</maxGenerations>
+		<globalOptimum>0.0</globalOptimum>
+	</Runtime>
+	<Method>
+		<Name> Particle Swarm Optimization </Name>
+		<maxPopRange> -1 </maxPopRange>
+		<chromosomeDim> 30 </chromosomeDim>
+    		<populationDim> 50 </populationDim>
+		<Operator>
+			<Name> SwarmMove  </Name>
+			<inertia> 0.05</inertia>
+			<localLearnRate> 2 </localLearnRate>
+			<neighborLearnRate> 2 </neighborLearnRate>
+		</Operator>
+		<Operator>
+			<Name> Evaluation </Name>
+		</Operator>
+	</Method>
+</Configuration>

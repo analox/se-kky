@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Problem>
+		<!-- Problem keywords: Ackley, Elliptic, Griewank, Rastrigin, Rastrigin NonCon, Rosenbrock, 
+ 		 Noise Sphere, Sphere, Weierstrass, Schwefel, ExpandedScaffer, 
+		-->	
+		<Name>Ackley</Name>
+	</Problem>
+	<Runtime>
+		<savedDir>records</savedDir>
+		<evalFilename>EA</evalFilename>
+		<numRuns>5</numRuns>
+		<writeIO2File> false </writeIO2File>
+		<writeEvaluation2File>false</writeEvaluation2File>
+		<writePop2File> false </writePop2File>
+		<writeResults2File> false </writeResults2File>
+		<writeRBox2File> false </writeRBox2File>
+		<writeResults2DB> false </writeResults2DB> 
+		<enableVisualization> false </enableVisualization>
+		<writeRules2File> false </writeRules2File>	
+		<writeClassifiedPop2File> false </writeClassifiedPop2File>
+		<maxEvaluation>300000</maxEvaluation> 
+		<deltaThreshold> 1E-50 </deltaThreshold>
+		<fitThreshold> 1E-8 </fitThreshold>
+		<maxGenerations> 100000 </maxGenerations>
+		<globalOptimum>0.0</globalOptimum>
+	</Runtime>
+	<Method>
+		<!-- Operator keywords: Crossover, Mutation, Local Learning, Selection,
+		Evaluation, ES Mutation, SwarmMove, Merging
+		-->	
+		<Name> Genetic Algorithm </Name>
+		<maxPopRange> 10 </maxPopRange>
+		<chromosomeDim> 30 </chromosomeDim>
+    		<populationDim> 50 </populationDim>
+		
+		<Operator>
+			<!-- Selection keywords: RouletteWheel, Ranking, Tournament, 
+			Random, SUS 
+			-->
+			<Name> Selection </Name>
+			<selectionType>RouletteWheel </selectionType>
+		</Operator>
+		
+		<Operator>
+			<!-- Crossover keywords: OnePoint, TwoPoint, Uniform, Arithmetic
+			-->
+			<Name> Crossover </Name>
+			<crossoverProb> 0.8 </crossoverProb>
+			<crossoverType> TwoPoint </crossoverType>
+		</Operator>
+		
+		<Operator>
+			<!-- Mutation keywords: Uniform, Gaussian
+			-->
+			<Name> Mutation </Name>
+			<mutationProb>0.01 </mutationProb>
+			<mutationType>Gaussian</mutationType>
+			<mutationRadius>1.0</mutationRadius>
+		</Operator>
+		<Operator>
+			<Name> Evaluation </Name>
+		</Operator>
+		
+		<Operator>
+			<!-- Merging keywords: RouletteWheel, Ranking, Tournament,
+			Random, Elitism, Non_Overlap, SUS
+			-->
+			<Name> Merging </Name>
+			<selectionType> Elitism </selectionType>
+		</Operator>
+	</Method>
+</Configuration>

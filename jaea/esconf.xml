@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Problem>
+		<!-- Problem keywords: Ackley, Elliptic, Griewank, Rastrigin, Rastrigin NonCon, Rosenbrock, 
+ 		 Noise Sphere, Sphere, Weierstrass, Schwefel, ExpandedScaffer, 
+		-->	
+		<Name>Griewank</Name>
+	</Problem>
+	<Runtime>
+		<savedDir>records</savedDir>
+		<evalFilename>EA</evalFilename>
+		<numRuns>10</numRuns>
+		<writeIO2File> false </writeIO2File>
+		<writeEvaluation2File>false</writeEvaluation2File>
+		<writePop2File> false </writePop2File>
+		<writeResults2File> false </writeResults2File>
+		<writeRBox2File> false </writeRBox2File>
+		<writeResults2DB> false </writeResults2DB> 
+		<enableVisualization> false </enableVisualization>
+		<writeRules2File> false </writeRules2File>	
+		<writeClassifiedPop2File> false </writeClassifiedPop2File>
+		<maxEvaluation>300000</maxEvaluation> 
+		<deltaThreshold> 1E-10 </deltaThreshold>
+		<fitThreshold> -128 </fitThreshold>
+		<maxGenerations> 100000</maxGenerations>
+		<globalOptimum>0.0</globalOptimum>
+	</Runtime>
+	<Method>
+		<!-- Operator keywords: Crossover, Mutation, Local Learning, Selection,
+		Evaluation, ES Mutation, SwarmMove, Merging
+		-->	
+		<Name> Evolution Strategy </Name>
+		<maxPopRange> -1 </maxPopRange>
+		<chromosomeDim> 30 </chromosomeDim>
+    	<populationDim> 50 </populationDim>
+		
+		<Operator>
+			<!-- Selection keywords: RouletteWheel, Ranking, Tournament, 
+			Random, SUS 
+			-->
+			<Name> Selection </Name>
+			<selectionType>Random </selectionType>
+			<poolsize> 25 </poolsize>
+		</Operator>
+		<Operator>
+			<Name> ES Mutation </Name>
+		</Operator>
+		<Operator>
+			<Name> Evaluation </Name>
+		</Operator>
+		
+		<Operator>
+			<!-- Merging keywords: RouletteWheel, Ranking, Tournament,
+			Random, Elitism, Non_Overlap, SUS
+			-->
+			<Name> Merging </Name>
+			<selectionType> Tournament </selectionType>
+		</Operator>
+	</Method>
+</Configuration>
