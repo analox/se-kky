@@ -31,12 +31,13 @@ public class OSS2Params extends FitnessFunction{
 		String INsFileParam = "kkydata/KKY-water.param";
 		String INsFileRef = "kkydata/W.ref";
 		String INsFileBound = "kkydata/KKY-water.bound";
+		String INsFileTargetLM = "kkydata/W1-4opt-mp2.xyz";
 		
 		for (int i = 0; i < filenames.length; i++) {
 			INdatafile.addElement(filenames[i]); INdataWeight.addElement(1.0);
 		}
 		
-		calc = new TaskFitPotential("KKY",INsFileParam, INsFileRef, INsFileBound,  INdatafile , INdataWeight );
+		calc = new TaskFitPotential("KKY",INsFileParam, INsFileRef, INsFileBound, INsFileTargetLM, INdatafile , INdataWeight );
 		calc.Initialize();
 	}
 	
@@ -54,7 +55,7 @@ public class OSS2Params extends FitnessFunction{
 			INdatafile.addElement(filenames[i]); INdataWeight.addElement(1.0);
 		}
 		
-		calc = new TaskFitPotential("KKY",INsFileParam, INsFileRef, INsFileBound,  INdatafile , INdataWeight );
+		calc = new TaskFitPotential("KKY",INsFileParam, INsFileRef, INsFileBound,  "",INdatafile , INdataWeight );
 		calc.Initialize();
 	}
 	
@@ -78,15 +79,19 @@ public class OSS2Params extends FitnessFunction{
 	{
 		
 		//OSS2Params f = new OSS2Params(0, new String[]{"kkydata/all.xyz"});
-		if (args.length < 5) {
-			System.out.println("Input: INsFileParam INsFileRef INsFileBound DataXYZ input");
-			System.exit(0);
-		}
+//		if (args.length < 5) {
+//			System.out.println("Input: INsFileParam INsFileRef INsFileBound DataXYZ input");
+//			System.exit(0);
+//		}
 		
 		//OSS2Params f = new OSS2Params(0, new String[]{"kkydata/all-filtered.xyz"}, args[0], args[1], args[2]);
-		OSS2Params f = new OSS2Params(0, new String[]{args[3]}, args[0], args[1], args[2]);
 		
-		Matrix inputMat = Matrix.File2DMat(args[4]);
+		OSS2Params f = new OSS2Params(0, new String[]{"kkydata/W1-l1.xyz","kkydata/W1-l2.xyz","kkydata/W1-l3.xyz",
+													  "kkydata/W2-l1.xyz","kkydata/W2-l2.xyz","kkydata/W2-l3.xyz",
+													  "kkydata/W3-l1.xyz","kkydata/W3-l2.xyz"});
+		
+		//Matrix inputMat = Matrix.File2DMat(args[4]);
+		Matrix inputMat = Matrix.File2DMat("kkydata/input.txt");
 		double [] inputs = inputMat.getFlatRow(0);
 		/*
 		double [] inputs = {4.967757955065471E-12, 0.16725654728240277, 6.876796967155116E-5, 

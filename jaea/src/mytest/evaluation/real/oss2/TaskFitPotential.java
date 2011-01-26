@@ -26,6 +26,8 @@ public class TaskFitPotential  {
   //@Option(name="-ref",usage="to calculate binding energies. It MUST be in F_XYZ format and in the following order: neutral, protonated, deprotonated. ",metaVar="FILE")
 	String sFileRef="";
 	
+	String sFileTargetLM="";
+	
 //	Vector<String> datafile=new Vector<String>();
 //	Vector<Double> dataWeight=new Vector<Double>();
 
@@ -208,6 +210,7 @@ public class TaskFitPotential  {
 
 	Vector<Cluster> molRef= new Vector<Cluster>();//!< reference clusters
 	Vector<Cluster> data=new Vector<Cluster>();//!< data/fitting clusters
+	Vector<Cluster> targetLM=new Vector<Cluster>();//!<
 	double[] weight;//!< weighted numbers of each clusters
 
 	double[] target; //!< contain target data, in that case is binding energy +rms
@@ -289,7 +292,6 @@ public class TaskFitPotential  {
 		for (int i=0; i< data.size(); i++){
 			Cluster m=data.get(i);
 			target[i]= CalcBindingEnergy(m,m.getEnergy(),ener_ref);
-			//target[i]*=1000;
 		}
 
 
@@ -326,6 +328,21 @@ public class TaskFitPotential  {
             for(int i=0;i<weight.length;i++){
                 weight[i]=1.0/weight.length;
             }
+        
+        
+        //read target LM
+        Scanner scanData = new Scanner(new File(sFileTargetLM));
+        targetLM.clear();
+        while (scanData.hasNext()) {
+			Cluster tmpMol = new Cluster();
+			tmpMol.Read(scanData, "xyz");
+			if(tmpMol.getNAtoms()==0) break;
+			tmpMol.CorrectOrder();
+			tmpMol.CalcUSRsignature();
+
+			targetLM.add(tmpMol);
+		}
+        scanData.close();
 
     }
 
@@ -437,7 +454,7 @@ public class TaskFitPotential  {
     }
 
 
-	public TaskFitPotential(String INsPotential, String INsFileParam, String INsFileRef, String INsFileBound,
+	public TaskFitPotential(String INsPotential, String INsFileParam, String INsFileRef, String INsFileBound, String INsFileTargetLM,
 			Vector<String> INdatafile, Vector<Double> INdataWeight )
 	{
 		//@Option(name="-a",usage="Parameter file for potential if applicant.",metaVar="FILE")
@@ -450,6 +467,8 @@ public class TaskFitPotential  {
 		
 		datafile= INdatafile;
 		dataWeight= INdataWeight;
+		
+		sFileTargetLM=INsFileTargetLM;
 		
 		sPotential=INsPotential;
 		sUnit="Hartree";
@@ -481,12 +500,14 @@ public class TaskFitPotential  {
         double[] ener_shift=new double[molRef.size()];
         double rms=0;
 
+        
+        //calculate new references
         for(int i=0; i<molRef.size(); i++){
             Cluster m=molRef.get(i);
             pot.setCluster(m);
             ener_shift[i] = pot.getEnergy(m.getCoords());
         }
-
+        
         if (verbose>=3){
             xmllog.writeEntity("Reference");
             for (int i = 0; i < ener_shift.length; i++) {
@@ -497,6 +518,39 @@ public class TaskFitPotential  {
                 xmllog.writeAttribute("Energy", Double.toString(ener_shift[i]));
                 xmllog.endEntity().flush();
             }
+            xmllog.endEntity().flush();
+        }
+        
+        //optimized the targeted local minima
+        
+        double[] disimilarity=new double[targetLM.size()];       
+        
+
+        
+        if (verbose>=3){   
+            xmllog.writeEntity("TargetLM");
+        }
+        
+        double avgDis=0;
+        for(int i=0;i<targetLM.size();i++){
+        	Cluster m=(Cluster)targetLM.get(i).clone();
+        	pot.Optimize(m);
+        	m.CalcUSRsignature();
+        	
+        	disimilarity[i]= 1 - m.CalcUSRSimilarity(targetLM.get(i));
+        	avgDis+=disimilarity[i]/targetLM.size();
+        	 if (verbose>=3){   
+                     xmllog.writeEntity("Cluster");
+                     xmllog.writeAttribute("id", Integer.toString(i));
+                     xmllog.writeAttribute("nAtoms", Integer.toString(m.getNAtoms()));
+                     xmllog.writeAttribute("Energy", Double.toString(m.getEnergy()));
+                     xmllog.writeAttribute("Dissimilarity", Double.toString(disimilarity[i]));
+                     xmllog.writeAttribute("RMSGrad", Double.toString(pot.getRMSGrad()));
+                     xmllog.endEntity().flush();
+                 }
+        }
+        
+        if (verbose>=3){
             xmllog.endEntity().flush();
         }
 
@@ -527,10 +581,14 @@ public class TaskFitPotential  {
         }
 
         rms=Math.sqrt(rms);
+        
+        double score=rms+avgDis/50;
 
         if (verbose>=1){
              xmllog.writeEntity("Step").writeAttribute("id", Integer.toString(nEvaluations));
 					xmllog.writeAttribute("RMS", Double.toString(rms));
+					xmllog.writeAttribute("AvgDis", Double.toString(avgDis));
+					xmllog.writeAttribute("Score", Double.toString(score));
 		     xmllog.endEntity().flush();
 //                xmllog.writeEntity("TotalRMS");
 //                xmllog.writeNormalText(Double.toString(rms));
@@ -538,7 +596,7 @@ public class TaskFitPotential  {
         }
 
         nEvaluations++;
-        return rms;
+        return score;
     }
 
 	private void ConvertParam(double[] actual,double[] p){
