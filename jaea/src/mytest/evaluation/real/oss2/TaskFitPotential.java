@@ -599,7 +599,7 @@ public class TaskFitPotential  {
 
         nEvaluations++;
         
-        if(Double.isNaN(score)) score = 99999;
+        if(Double.isNaN(score)) score = 999999;
         return score;
     }
 
