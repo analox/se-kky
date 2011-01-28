@@ -224,7 +224,7 @@ public abstract class FitnessFunction {
 		/* Update best-found value & print to file*/
 		if (writeEvaluation2File) {
 			if (res < bestFound) bestFound = res;
-			evaluation.print(NUM_EVAL + ", " + res);
+			evaluation.print(NUM_EVAL + ", " + res + ", ");
 			for (int i = 0; i < tInputs.length; i++)
 				evaluation.print(tInputs[i] + ", ");
 			evaluation.println();

@@ -105,7 +105,7 @@ public class OSS2Params extends FitnessFunction{
 			act_inputs[i] = f.getTaskFitPotential().lb[i] + 
 					inputs[i] * (f.getTaskFitPotential().ub[i] - f.getTaskFitPotential().lb[i]);
 		
-		double res = f.getTaskFitPotential().Evaluate(act_inputs, 5);
+		double res = f.getTaskFitPotential().Evaluate(act_inputs, 1);
 		//f.getTaskFitPotential().WriteParam(act_inputs, "H2O-fDSCG2-27D.param");
 		System.out.println("RMS = " + res);
 	}
