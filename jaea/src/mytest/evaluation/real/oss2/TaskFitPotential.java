@@ -506,6 +506,7 @@ public class TaskFitPotential  {
             Cluster m=molRef.get(i);
             pot.setCluster(m);
             ener_shift[i] = pot.getEnergy(m.getCoords());
+            
         }
         
         if (verbose>=3){
@@ -524,9 +525,7 @@ public class TaskFitPotential  {
         //optimized the targeted local minima
         
         double[] disimilarity=new double[targetLM.size()];       
-        
-
-        
+                
         if (verbose>=3){   
             xmllog.writeEntity("TargetLM");
         }
@@ -548,6 +547,9 @@ public class TaskFitPotential  {
                      xmllog.writeAttribute("RMSGrad", Double.toString(pot.getRMSGrad()));
                      xmllog.endEntity().flush();
                  }
+        	 
+
+            if(Double.isNaN(m.getEnergy())) return 999999;
         }
         
         if (verbose>=3){
@@ -596,6 +598,8 @@ public class TaskFitPotential  {
         }
 
         nEvaluations++;
+        
+        if(Double.isNaN(score)) score = 99999;
         return score;
     }
 
