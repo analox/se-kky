@@ -76,4 +76,19 @@ public class Rosenbrock extends FitnessFunction {
 			g = transformX(g, transMatrix);
 		}
 	}
+	
+	public static void main(String []args)
+	{
+		double [] x = {-1.555267038, -0.67767822, -0.88489966, -0.976511931, -0.989339483, -0.989782049, -0.989791471, -0.989795793, -0.989995921, -0.999899922};
+		Rosenbrock f = new Rosenbrock(0);
+		double val = f.calculate(x);
+		System.out.println(val);
+		
+		double [] g = x;
+		f.getFitnessGrad(x, val, g);
+		System.out.print("Gradient: ");
+		for (int i = 0; i < g.length; i++)
+			System.out.print(g[i]+ " ");
+		System.out.println();
+	}
 }

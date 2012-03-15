@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry excluding="edu/udo/cs/yale/doc/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/lemi0005/Desktop/SE-KKY/nqcmol/lib/commons-math-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/lemi0005/Desktop/SE-KKY/nqcmol/lib/vecmath1.2-1.14.jar"/>
+	<classpathentry kind="lib" path="H:/Nghia/Research/Packaged/SE-KKY/jaea/lib/commons-math-2.0.jar"/>
+	<classpathentry kind="lib" path="H:/Nghia/Research/Packaged/SE-KKY/jaea/lib/vecmath1.2-1.14.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
